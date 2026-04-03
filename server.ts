@@ -149,11 +149,14 @@ const connectDB = async () => {
     try {
       console.log(`🔄 MongoDB connection attempt ${attempt}/${maxRetries}...`);
       
+      // Decode the URI to check actual values
+      const decodedUri = decodeURIComponent(MONGO_URI);
+      console.log(`📍 Host: ${decodedUri.split('@')[1]?.split('?')[0] || 'unknown'}`);
+      
       await mongoose.connect(MONGO_URI, {
         maxPoolSize: 10,
-        serverSelectionTimeoutMS: 10000,
-        socketTimeoutMS: 45000,
-        family: 4,
+        serverSelectionTimeoutMS: 30000,
+        socketTimeoutMS: 60000,
       });
       
       console.log('✅ MongoDB Connected Successfully');
@@ -172,6 +175,7 @@ const connectDB = async () => {
       return true;
     } catch (err: any) {
       console.error(`❌ MongoDB connection attempt ${attempt} failed:`, err.message);
+      console.error('Full error:', err);
       if (attempt < maxRetries) {
         console.log(`⏳ Retrying in ${retryDelay / 1000} seconds...`);
         await new Promise(resolve => setTimeout(resolve, retryDelay));

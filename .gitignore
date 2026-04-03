@@ -4,7 +4,6 @@
 
 # --- Dependencies ---
 node_modules/
-package-lock.json
 
 # --- Building & Packaging ---
 dist/
@@ -20,7 +19,6 @@ build/
 .env.production
 .env.production.local
 .env.development.local
-# .env.example should NOT be ignored - it's a template for required variables
 
 # --- Logs & Performance ---
 *.log
